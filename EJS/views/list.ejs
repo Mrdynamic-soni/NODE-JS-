@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>to do list</title>
+</head>
+<body>
+  <!-- <h1> It's a <%= DAY %></h1>
+   -->
+   <!-- <% if( DAY === "SAUTURDAY" || DAY === "SUNDAY"){ %>
+     <h1 style = "color :blueviolet red"> <%= DAY %> TO DO list </h1>
+  <% } else{ %>
+    <h1 style = "color :green"> <%= DAY %> TO DO list </h1>
+  <% }%> -->
+
+  <h1> <%=  DAY %></h1>
+
+  <ul>
+    <li>MERN</li>
+    <li>IOT</li>
+    <li>DS ALGO</li>
+    <li>AI/ML</li>
+    
+      <% for(var i=0;i<newlistitems.length;i++)  { %>
+       <li><%= newlistitems[i] %></li>
+     <%  } %>
+  </ul>
+
+  <form class="" action="/" method="post">
+    <input type="text" name="NEWI">
+    <button type="submit" name="button">
+      ADD 
+    </button>
+  </form>
+
+</body>
+</html>
