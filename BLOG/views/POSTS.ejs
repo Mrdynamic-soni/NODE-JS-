@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>BLOG WEBSITE</title>
+</head>
+<body>
+    <%- include('header'); -%>
+ 
+
+  <% Posts.forEach(function(Post){ %>
+    <h1><%= Post.Titleof %> </h1>
+    <p> <%= Post.Content %> </p>
+  <% }) %>
+  
+  <%- include('footer'); -%>
+
+
+</body>
+</html>

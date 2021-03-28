@@ -1,5 +1,6 @@
 const  express = require ("express");
 const ejs = require("ejs");
+const _ = require("lodash");
 
 const app = express();
 
@@ -17,6 +18,12 @@ app.use(express.static('public'));
 app.get("/", function(req,res){
     console.log(Posts);
     res.render('Home', {aboutMe:aboutMe ,Posts:Posts});
+  
+});
+
+
+app.get("/POSTS", function(req,res){
+    res.render('POSTS', {aboutMe:aboutMe ,Posts:Posts});
   
 });
 
@@ -47,6 +54,21 @@ const ToPost ={
 
 });
 
+
+app.get("/POSTS/:postName",function(req,res){
+  const  titleNAme = _.lowerCase(req.params.postName);
+
+  Posts.forEach(function(post){
+   const titleNAME = _.lowerCase(post.Titleof);
+  
+   if(titleNAme === titleNAME){
+       res.render('POSTS',{
+        newTitle :titleNAME,
+        newContent : post.Content
+       });
+    }
+   });
+});
 
 
 app.listen(3000,function(){
