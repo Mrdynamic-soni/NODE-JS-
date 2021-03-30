@@ -22,10 +22,6 @@ app.get("/", function(req,res){
 });
 
 
-app.get("/POSTS", function(req,res){
-    res.render('POSTS', {aboutMe:aboutMe ,Posts:Posts});
-  
-});
 
 app.get("/contact", function(req,res){
     res.render('Contact',{contact:contact});
@@ -63,7 +59,7 @@ app.get("/POSTS/:postName",function(req,res){
   
    if(titleNAme === titleNAME){
        res.render('POSTS',{
-        newTitle :titleNAME,
+        newTitle :post.Titleof,
         newContent : post.Content
        });
     }

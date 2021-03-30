@@ -9,16 +9,13 @@
       HI Everyone 
   </h1>
   <p> <%= aboutMe %> </p>
-<!-- 
- <%  for(var i=0; i< Posts.length ; i++) {%>
-   <% console.log(Posts[i].Titleof); %>
-  <% }; %>
-  -->
-  <!-- <% Posts.forEach(function(Post){ %>
+
+
+  <% Posts.forEach(function(Post){ %>
     <h1><%= Post.Titleof %> </h1>
     <p> <%= Post.Content %> </p>
   <% }) %>
-   -->
+  
   <%- include('footer'); -%>
 
 
