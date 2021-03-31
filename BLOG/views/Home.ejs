@@ -13,7 +13,12 @@
 
   <% Posts.forEach(function(Post){ %>
     <h1><%= Post.Titleof %> </h1>
-    <p> <%= Post.Content %> </p>
+
+    <p> 
+      <%= Post.Content.substring(0,100)+ "... " %>
+      <a href ="/posts/<%= Post.Titleof %>">ReadMore</a>
+    </p>
+
   <% }) %>
   
   <%- include('footer'); -%>

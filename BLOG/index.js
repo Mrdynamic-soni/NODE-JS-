@@ -1,6 +1,8 @@
 const  express = require ("express");
 const ejs = require("ejs");
 const _ = require("lodash");
+const mongoose = require("mongoose");
+const { result } = require("lodash");
 
 const app = express();
 
@@ -15,13 +17,58 @@ app.set ('view engine','ejs');
 app.use(express.urlencoded({extended:false}));
 app.use(express.static('public'));
 
+mongoose.connect("mongodb://localhost:27017/PROJECTS",{useNewUrlParser :true ,useUnifiedTopology: true});
+
+const projectSchema = {
+    title : String,
+    details : String
+};
+
+const Project = mongoose.model("Project",projectSchema);
+
+const project1 = new Project({
+    title:"IOT",
+    details: "Will chnage it later on"
+});
+
+const project2 = new Project({
+    title:"IOT",
+    details: "Will chnage it later on definately"
+});
+
+const project3 = new Project({
+    title:"IOT",
+    details: "Will chnage it later on , ho jayega bro"
+});
+
+const PROJECTS = [project1,project2,project3];
+
+
 app.get("/", function(req,res){
-    console.log(Posts);
-    res.render('Home', {aboutMe:aboutMe ,Posts:Posts});
-  
+
+    Project.find({},function(err,result){
+        if(result.length === 0)
+        {
+          
+         Project.insertMany(PROJECTS,function(err){
+         if (err){
+           console.log(err);
+        }
+         else{
+           console.log("data inserted succesfully");
+        }
+      });
+         res.redirect("/");
+        }else{
+        res.render('list', {aboutMe:aboutMe ,Posts:result});
+        }
+    });
 });
 
 
+// app.get("/", function(req,res){
+//     res.render('Home', {aboutMe:aboutMe ,Posts:Posts});
+// });
 
 app.get("/contact", function(req,res){
     res.render('Contact',{contact:contact});
@@ -38,35 +85,60 @@ app.get("/Compose",function(req,res){
 });
 
 
-app.post("/Compose",function(req,res){
+// app.post("/Compose",function(req,res){
  
-const ToPost ={
-      Titleof:  req.body.titlebody,
-      Content : req.body.comment
-  };
+// const ToPost ={
+//       Titleof:  req.body.titlebody,
+//       Content : req.body.comment
+//   };
 
-  Posts.push(ToPost);
-  res.redirect("/");
+//   Posts.push(ToPost);
+//   res.redirect("/");
+
+// });
+
+app.post("/",function(req,res){
+   const projectname = req.body.newpost;
+
+   const item = new Project({
+       title : "new one",
+       details: projectname
+   });
+   item.save();
+
+   res.redirect("/");
+});
+
+app.post("/delete", function(req,res){
+   const postId = req.body.checkBox;
+
+ Project.findByIdAndRemove(postId,function(err){
+  if(err){
+      console.log(err);
+  }
+  else{
+   console.log("deleted successfully");
+   res.redirect("/");
+  }
+});
 
 });
 
-
-app.get("/POSTS/:postName",function(req,res){
+app.get("/Posts/:postName",function(req,res){
   const  titleNAme = _.lowerCase(req.params.postName);
 
   Posts.forEach(function(post){
    const titleNAME = _.lowerCase(post.Titleof);
   
    if(titleNAme === titleNAME){
-       res.render('POSTS',{
+       res.render('Post',{
         newTitle :post.Titleof,
         newContent : post.Content
        });
     }
    });
-});
-
+ });
 
 app.listen(3000,function(){
-    console.log("serever started ");
+    console.log("server started ");
 });
