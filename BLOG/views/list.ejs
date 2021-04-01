@@ -13,7 +13,7 @@
        <% Posts.forEach(function(post){ %>
     <form action="/delete" method ="post">
         <div class ="item">
-            <input name = "checkBox" type ="checkbox" value="<%= post._id %> "onchange="this.form.submit()">
+            <input name = "checkBox" type ="checkbox" value="<%= post._id %>" onChange="this.form.submit()">
             <p> <%= post.details %> </p>
         </div>
     </form>

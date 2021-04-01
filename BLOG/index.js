@@ -17,7 +17,7 @@ app.set ('view engine','ejs');
 app.use(express.urlencoded({extended:false}));
 app.use(express.static('public'));
 
-mongoose.connect("mongodb://localhost:27017/PROJECTS",{useNewUrlParser :true ,useUnifiedTopology: true});
+mongoose.connect("mongodb+srv://soni_cluster:98074701@cluster0.b7ycx.mongodb.net/PROJECTS",{useNewUrlParser :true ,useUnifiedTopology: true});
 
 const projectSchema = {
     title : String,
@@ -42,6 +42,14 @@ const project3 = new Project({
 });
 
 const PROJECTS = [project1,project2,project3];
+
+const listSchema = {
+    name : String,
+    items : projectSchema
+};
+
+const List = mongoose.model("List",listSchema);
+
 
 
 app.get("/", function(req,res){
@@ -124,21 +132,31 @@ app.post("/delete", function(req,res){
 
 });
 
-app.get("/Posts/:postName",function(req,res){
-  const  titleNAme = _.lowerCase(req.params.postName);
+// app.get("/Posts/:postName",function(req,res){
+//   const  titleNAme = _.lowerCase(req.params.postName);
 
-  Posts.forEach(function(post){
-   const titleNAME = _.lowerCase(post.Titleof);
+//   Posts.forEach(function(post){
+//    const titleNAME = _.lowerCase(post.Titleof);
   
-   if(titleNAme === titleNAME){
-       res.render('Post',{
-        newTitle :post.Titleof,
-        newContent : post.Content
-       });
-    }
-   });
- });
+//    if(titleNAme === titleNAME){
+//        res.render('Post',{
+//         newTitle :post.Titleof,
+//         newContent : post.Content
+//        });
+//     }
+//    });
+//  });
 
-app.listen(3000,function(){
+app.get("/:UrlName",function(req,res){
+    const URL =req.params.UrlName;
+    const  list = new List({
+        name : URL,
+        items : PROJECTS 
+    });
+    list.save(); 
+});
+
+
+app.listen(process.env.PORT || 3000,function(){
     console.log("server started ");
 });
